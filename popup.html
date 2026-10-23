@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      width: 320px;
+      margin: 0;
+      padding: 12px;
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 13px;
+    }
+    label { display: block; font-weight: 600; margin-bottom: 6px; }
+    textarea {
+      width: 100%;
+      min-height: 64px;
+      resize: vertical;
+      font-family: inherit;
+      box-sizing: border-box;
+      padding: 6px 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+    button {
+      margin-top: 8px;
+      width: 100%;
+      padding: 7px;
+      border: none;
+      border-radius: 4px;
+      background: #7c3aed;
+      color: #fff;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    button:disabled { opacity: 0.6; cursor: default; }
+    .input-row { display: flex; gap: 6px; align-items: flex-start; }
+    .input-row textarea { flex: 1; }
+    #addCurrent {
+      flex: none;
+      width: 30px;
+      height: 30px;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      background: #ede9fe;
+      color: #5b21b6;
+    }
+    .checkbox {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 8px 0 0;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .checkbox input { margin: 0; }
+    #addCurrent:hover:not(:disabled) { background: #ddd6fe; }
+    #status { margin-top: 8px; min-height: 16px; color: #555; word-break: break-word; }
+    #status.error { color: #b91c1c; }
+    #items { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+    #items:empty { display: none; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      max-width: 100%;
+      padding: 2px 4px 2px 8px;
+      border-radius: 999px;
+      background: #ede9fe;
+      color: #5b21b6;
+      font-size: 12px;
+    }
+    .badge .label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .badge .remove {
+      width: auto;
+      margin: 0;
+      padding: 0 4px;
+      background: none;
+      color: inherit;
+      font-size: 13px;
+      line-height: 1;
+    }
+    .badge.invalid { background: #fee2e2; color: #b91c1c; }
+    .badge.working { background: #fef3c7; color: #92400e; }
+    .badge.done { background: #dcfce7; color: #166534; }
+    .badge.error { background: #fee2e2; color: #b91c1c; }
+    .badge.warn { background: #ffedd5; color: #9a3412; }
+    details { margin-top: 10px; color: #555; }
+    summary { cursor: pointer; }
+    details label { margin-top: 8px; font-weight: 500; }
+    details input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 6px 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <label for="doi">DOIs or URLs (one per line)</label>
+  <div class="input-row">
+    <textarea id="doi" placeholder="10.1145/3290605.3300233&#10;https://doi.org/10.1038/nature14539"></textarea>
+    <button id="addCurrent" title="Add current page" aria-label="Add current page">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+      </svg>
+    </button>
+  </div>
+  <div id="items"></div>
+  <label class="checkbox"><input id="aiSummary" type="checkbox" checked> AI summary</label>
+  <button id="generate">Generate Obsidian files</button>
+  <div id="status"></div>
+  <details id="settings">
+    <summary>Settings</summary>
+    <label for="apiKey">OpenAI API key (for AI summaries)</label>
+    <input id="apiKey" type="password" placeholder="sk-…" autocomplete="off">
+  </details>
+  <script src="popup.js"></script>
+</body>
+</html>
